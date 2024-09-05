@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class UnlimitedSlot : IInventorySlot
 {
-    public ItemId Id { get => _config == null ? ItemId.NONE : _config.Id; }
-    public ItemConfig Config { get => _config; }
+    public ItemId Id { get => _id; }
 
     public int ItemsCount { get => _itemsCount; }
 
@@ -13,14 +12,15 @@ public class UnlimitedSlot : IInventorySlot
 
     public bool IsEmpty { get => _itemsCount < 1; }
 
-    private ItemConfig _config;
+    private ItemId _id;
     private int _itemsCount = 0;
 
-    public bool AddItems(ItemConfig config, int amount)
+    public bool AddItems(ItemId id, int amount)
     {
-        if(IsEmpty)
-            _config = config;
-        else if(_config != config)
+        if (IsEmpty)
+            _id = id;
+
+        if (_id != id)
             return false;
 
         _itemsCount += amount > 0 ? amount : 0;

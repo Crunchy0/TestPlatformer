@@ -5,19 +5,20 @@ using UnityEngine.UI;
 
 public class InventorySlotUI : MonoBehaviour, IInventorySlotUI
 {
-    public ItemConfig ItemConfig {
-        get => _config;
+    public ItemId ItemId {
+        get => _itemId;
         set
         {
-            _config = value;
-            _image.sprite = _config.Icon;
+            _itemId = value;
+            if (ItemConfigDatabase.Instance.GetConfig(value, out var config))
+                _image.sprite = config.Icon;
         }
     }
 
     public Image Image { get => _image; }
     public Text Text { get => _text; }
 
-    private ItemConfig _config;
+    private ItemId _itemId;
 
     [SerializeField] private Image _image;
     [SerializeField] private Text _text;

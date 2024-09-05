@@ -40,10 +40,10 @@ public class InventoryUIHandler : MonoBehaviour
             if (!slot.TryGetComponent<InventorySlotUI>(out var ui))
                 continue;
 
-            if (ui.ItemConfig == null)
-                ui.ItemConfig = invSlot.Config;
+            if (ui.ItemId == ItemId.NONE)
+                ui.ItemId = invSlot.Id;
 
-            if (ui.ItemConfig.Id != invSlot.Config.Id)
+            if (ui.ItemId != invSlot.Id)
                 continue;
             else
                 ui.Text.text = $"{invSlot.ItemsCount}";

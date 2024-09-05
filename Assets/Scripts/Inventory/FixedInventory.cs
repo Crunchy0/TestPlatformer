@@ -16,12 +16,12 @@ public class FixedInventory : IInventory
             _slots.Add(new UnlimitedSlot());
     }
 
-    public bool TryAddItems(ItemConfig config, int amount, out int index)
+    public bool TryAddItems(ItemId id, int amount, out int index)
     {
-        if(!FindIndexById(config.Id, out index))
+        if(!FindIndexById(id, out index))
             index = _firstFreeSlotIdx;
 
-        if(_slots[index].AddItems(config, amount))
+        if(_slots[index].AddItems(id, amount))
         {
             PushFirstFreeSlot();
             return true;
@@ -29,9 +29,9 @@ public class FixedInventory : IInventory
         return false;
     }
 
-    public int TryRemoveItems(ItemConfig config, int amount)
+    public int TryRemoveItems(ItemId id, int amount)
     {
-        if (!FindIndexById(config.Id, out int idx))
+        if (!FindIndexById(id, out int idx))
             return 0;
         return TryRemoveItems(idx, amount);
     }
@@ -42,11 +42,6 @@ public class FixedInventory : IInventory
             return 0;
 
         int removed = _slots[index].RemoveItems(amount);
-
-        if(removed > 0)
-        {
-            // Invoke GUI update
-        }
 
         if (_slots[index].IsEmpty && index < _firstFreeSlotIdx)
             _firstFreeSlotIdx = index;

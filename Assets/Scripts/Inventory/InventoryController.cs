@@ -32,13 +32,13 @@ public class InventoryController : MonoBehaviour
         if (!gameObject.TryGetComponent<ItemComponent>(out var item))
             return;
 
-        AddItem(item.Config);
+        AddItem(item.Config.Id);
         Destroy(gameObject);
     }
 
-    private void AddItem(ItemConfig config)
+    private void AddItem(ItemId id)
     {
-        if (!_inventory.TryAddItems(config, 1, out int index))
+        if (!_inventory.TryAddItems(id, 1, out int index))
             return;
         if (!_inventory.GetSlot(index, out var slot))
             return;

@@ -1,0 +1,91 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class FixedInventory : IInventory
+{
+    public bool FixedSlotsCount => true;
+    public int SlotsCount { get => _slots.Count; }
+
+    private List<IInventorySlot> _slots = new();
+    private int _firstFreeSlotIdx = 0;
+
+    public FixedInventory(int slotsCount)
+    {
+        for(int i = 0; i < slotsCount; i++)
+            _slots.Add(new UnlimitedSlot());
+    }
+
+    public bool TryAddItems(ItemConfig config, int amount, out int index)
+    {
+        if(!FindIndexById(config.Id, out index))
+            index = _firstFreeSlotIdx;
+
+        if(_slots[index].AddItems(config, amount))
+        {
+            PushFirstFreeSlot();
+            return true;
+        }
+        return false;
+    }
+
+    public int TryRemoveItems(ItemConfig config, int amount)
+    {
+        if (!FindIndexById(config.Id, out int idx))
+            return 0;
+        return TryRemoveItems(idx, amount);
+    }
+
+    public int TryRemoveItems(int index, int amount)
+    {
+        if (index < 0 || index >= _slots.Count)
+            return 0;
+
+        int removed = _slots[index].RemoveItems(amount);
+
+        if(removed > 0)
+        {
+            // Invoke GUI update
+        }
+
+        if (_slots[index].IsEmpty && index < _firstFreeSlotIdx)
+            _firstFreeSlotIdx = index;
+
+        return removed;
+    }
+
+    public bool GetSlot(int index, out IInventorySlot slot)
+    {
+        slot = null;
+        if (index < 0 || index >= _slots.Count)
+            return false;
+
+        slot = _slots[index];
+        return true;
+    }
+
+    private void PushFirstFreeSlot()
+    {
+        while (_firstFreeSlotIdx < _slots.Count)
+        {
+            if (_slots[_firstFreeSlotIdx].IsEmpty)
+                break;
+            _firstFreeSlotIdx++;
+        }
+    }
+
+    private bool FindIndexById(ItemId id, out int idx)
+    {
+        idx = -1;
+        for(int i = 0; i < _slots.Count; i++)
+        {
+            if (id == _slots[i].Id)
+            {
+                idx = i;
+                return true;
+            }
+        }
+
+        return false;
+    }
+}

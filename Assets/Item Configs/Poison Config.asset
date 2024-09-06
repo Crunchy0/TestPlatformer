@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 2
   _name: Poison
-  _icon: {fileID: 1230134595, guid: 9774edb60827ed5438523275f612b075, type: 3}
+  _icon: {fileID: 2122045558, guid: 0fe99ba7090da1048bea1a568f85d26b, type: 3}
   _effect: {fileID: 11400000, guid: 1a718091ae3011c4586f85a3ea3cd02b, type: 2}

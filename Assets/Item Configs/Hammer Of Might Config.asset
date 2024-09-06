@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 4
   _name: Hammer of might
-  _icon: {fileID: 0}
+  _icon: {fileID: 1818737917, guid: 0fe99ba7090da1048bea1a568f85d26b, type: 3}
   _effect: {fileID: 11400000, guid: e2d14cbb802207e46bfb445ee8e46de5, type: 2}

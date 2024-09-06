@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 5
   _name: Book of enlightenment
-  _icon: {fileID: 0}
+  _icon: {fileID: 1056180153, guid: 0fe99ba7090da1048bea1a568f85d26b, type: 3}
   _effect: {fileID: 11400000, guid: 902be2dbde355c1428ce764d53faa4ed, type: 2}

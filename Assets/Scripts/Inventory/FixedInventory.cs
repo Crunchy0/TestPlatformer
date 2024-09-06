@@ -6,9 +6,18 @@ public class FixedInventory : IInventory
 {
     public bool FixedSlotsCount => true;
     public int SlotsCount { get => _slots.Count; }
+    public InventorySaveData SaveData
+    {
+        get
+        {
+            _saveData = PrepareSaveData();
+            return _saveData;
+        }
+    }
 
     private List<IInventorySlot> _slots = new();
     private int _firstFreeSlotIdx = 0;
+    private InventorySaveData _saveData;
 
     public FixedInventory(int slotsCount)
     {
@@ -96,5 +105,21 @@ public class FixedInventory : IInventory
         }
 
         return false;
+    }
+
+    private InventorySaveData PrepareSaveData()
+    {
+        InventorySaveData data = new();
+        data.slotsCount = _slots.Count;
+        data.slots = new InventorySlotSaveData[data.slotsCount];
+        for(int i = 0; i < data.slotsCount; i++)
+        {
+            data.slots[i] = new InventorySlotSaveData
+            {
+                itemId = _slots[i].IsEmpty ? 0 : (int)_slots[i].Id,
+                count = _slots[i].ItemsCount
+            };
+        }
+        return data;
     }
 }

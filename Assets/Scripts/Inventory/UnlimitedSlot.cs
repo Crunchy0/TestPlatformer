@@ -5,11 +5,8 @@ using UnityEngine;
 public class UnlimitedSlot : IInventorySlot
 {
     public ItemId Id { get => _id; }
-
     public int ItemsCount { get => _itemsCount; }
-
     public int FreeSpace { get => System.Int32.MaxValue; }
-
     public bool IsEmpty { get => _itemsCount < 1; }
 
     private ItemId _id;

@@ -1393,6 +1393,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _slotsCountInit: 12
   _itemLayerName: Items
+  _owner: {fileID: 0}
 --- !u!114 &691691153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1789,7 +1790,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!114 &988541976
 MonoBehaviour:
@@ -1974,7 +1975,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 931006339}
   m_HandleRect: {fileID: 931006338}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 0.99999976
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2220,7 +2221,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!114 &1231521190
 MonoBehaviour:
@@ -2869,7 +2870,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!114 &1728246492
 MonoBehaviour:
@@ -2990,7 +2991,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!114 &1811467496
 MonoBehaviour:
@@ -3111,7 +3112,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!114 &1828966298
 MonoBehaviour:
@@ -3277,7 +3278,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!114 &1981540829
 MonoBehaviour:

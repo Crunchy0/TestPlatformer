@@ -6,6 +6,7 @@ public interface IInventory
 {
     public bool FixedSlotsCount { get; }
     public int SlotsCount { get; }
+    public InventorySaveData SaveData { get; }
 
     public bool TryAddItems(ItemId id, int amount, out int index);
     public int TryRemoveItems(ItemId id, int amount);

@@ -27,6 +27,19 @@ public class InventoryController : MonoBehaviour
         _inventory = new FixedInventory(_slotsCountInit);
     }
 
+    private void Start()
+    {
+        SaveLoadSystem.Load();
+        InventorySaveData saveData = SaveLoadSystem.InventoryData;
+        for(int i = 0; i < saveData.slotsCount; i++)
+        {
+            ItemId id = (ItemId)saveData.slots[i].itemId;
+            if (id == ItemId.NONE)
+                continue;
+            AddItem(id, saveData.slots[i].count);
+        }
+    }
+
     private void OnEnable()
     {
         InventorySlotUI.onClickItemUI += TryUseItem;
@@ -46,13 +59,21 @@ public class InventoryController : MonoBehaviour
         if (!gameObject.TryGetComponent<ItemComponent>(out var item))
             return;
 
-        AddItem(item.Config.Id);
+        AddItem(item.Config.Id, 1);
         Destroy(gameObject);
     }
 
-    private void AddItem(ItemId id)
+    private void OnApplicationFocus(bool focus)
     {
-        if (!_inventory.TryAddItems(id, 1, out int index))
+        if (focus)
+            return;
+        SaveLoadSystem.SetInventoryData(_inventory.SaveData);
+        SaveLoadSystem.Save();
+    }
+
+    private void AddItem(ItemId id, int amount)
+    {
+        if (!_inventory.TryAddItems(id, amount, out int index))
             return;
         if (!_inventory.GetSlot(index, out var slot))
             return;
@@ -60,11 +81,11 @@ public class InventoryController : MonoBehaviour
         onItemAdded?.Invoke(slot);
     }
 
-    private void RemoveItem(ItemId id)
+    private void RemoveItem(ItemId id, int amount)
     {
         if (!_inventory.GetSlot(id, out var slot))
             return;
-        if (_inventory.TryRemoveItems(id, 1) < 1)
+        if (_inventory.TryRemoveItems(id, amount) < 1)
             return;
 
         onItemRemoved?.Invoke(slot);
@@ -75,7 +96,7 @@ public class InventoryController : MonoBehaviour
         if (controller != this || !_inventory.Has(id))
             return;
 
-        RemoveItem(id);
+        RemoveItem(id, 1);
 
         if (!_owner.TryGetComponent<EffectApplier>(out var applier))
             return;

@@ -20,7 +20,7 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float percent = _rigidbody.velocity.magnitude / _maxSpeed;
+        float percent = _rigidbody.velocity.magnitude / _maxSpeed * _controller.Direction.magnitude;
         if (percent - 1 > 1e-3)
             _rigidbody.velocity /= percent;
 

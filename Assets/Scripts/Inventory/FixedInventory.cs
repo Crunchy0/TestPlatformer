@@ -59,6 +59,20 @@ public class FixedInventory : IInventory
         return true;
     }
 
+    public bool GetSlot(ItemId id, out IInventorySlot slot)
+    {
+        slot = null;
+        return FindIndexById(id, out int idx) && GetSlot(idx, out slot);
+    }
+
+    public bool Has(ItemId id)
+    {
+        bool idPresent = FindIndexById(id, out var idx);
+        if (idPresent && !_slots[idx].IsEmpty)
+            return true;
+        return false;
+    }
+
     private void PushFirstFreeSlot()
     {
         while (_firstFreeSlotIdx < _slots.Count)

@@ -1,35 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TestPlatformer.Stats;
 
-namespace TestPlatformer.Stats
+public class StatsModifier : IStatsModifier
 {
-    public class StatsModifier : IStatsModifier
+    public float Health { get; private set; } = 0;
+    public float Endurance { get; private set; } = 0;
+    public float Strength { get; private set; } = 0;
+    public float Wisdom { get; private set; } = 0;
+
+    public static StatsModifier Neutral { get; } = new();
+
+    private StatsModifier() { }
+
+    public StatsModifier(IStats baseStats)
     {
-        public float Health { get; set; }
-        public float Endurance { get; set; }
-        public float Strength { get; set; }
-        public float Wisdom { get; set; }
+        Health = baseStats.Health;
+        Endurance = baseStats.Endurance;
+        Strength = baseStats.Strength;
+        Wisdom = baseStats.Wisdom;
+    }
 
-        public StatsModifier()
-        {
-            Reset();
-        }
-
-        public void Reset()
-        {
-            Health = 0;
-            Endurance = 0;
-            Strength = 0;
-            Wisdom = 0;
-        }
-
-        public void Merge(IStatsModifier other)
-        {
-            Health += other.Health;
-            Endurance += other.Endurance;
-            Strength += other.Strength;
-            Wisdom += other.Wisdom;
-        }
+    public IStatsModifier Merge(IStatsModifier other)
+    {
+        var modifier = new StatsModifier(this);
+        modifier.Health += other.Health;
+        modifier.Endurance += other.Endurance;
+        modifier.Strength += other.Strength;
+        modifier.Wisdom += other.Wisdom;
+        return modifier;
     }
 }

@@ -19,34 +19,64 @@ public class InventoryUIHandler : MonoBehaviour
     private void OnEnable()
     {
         _invController.onItemAdded += InventoryUIAdd;
+        _invController.onItemRemoved += InventoryUIRemove;
     }
 
     private void OnDisable()
     {
         _invController.onItemAdded -= InventoryUIAdd;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _invController.onItemRemoved -= InventoryUIRemove;
     }
 
     private void InventoryUIAdd(IInventorySlot invSlot)
     {
+        int firstEmpty = _grid.childCount;
+        InventorySlotUI empty = null;
+
         for(int i = 0; i < _grid.childCount; i++)
         {
-            var slot = _grid.GetChild(i);
-            if (!slot.TryGetComponent<InventorySlotUI>(out var ui))
+            var uiSlot = _grid.GetChild(i);
+            if (!uiSlot.TryGetComponent<InventorySlotUI>(out var ui))
                 continue;
 
-            if (ui.ItemId == ItemId.NONE)
-                ui.ItemId = invSlot.Id;
+            if (ui.ItemId == ItemId.NONE && firstEmpty > i)
+            {
+                firstEmpty = i;
+                empty = ui;
+            }
+
+            if(ui.ItemId == invSlot.Id)
+            {
+                ui.Text.text = $"{invSlot.ItemsCount}";
+                return;
+            }
+        }
+
+        if(firstEmpty < _grid.childCount)
+        {
+            empty.ItemId = invSlot.Id;
+            empty.Controller = _invController;
+            empty.Text.text = $"{invSlot.ItemsCount}";
+        }
+    }
+
+    private void InventoryUIRemove(IInventorySlot invSlot)
+    {
+        for(int i = 0; i < _grid.childCount; i++)
+        {
+            var uiSlot = _grid.GetChild(i);
+            if (!uiSlot.TryGetComponent<InventorySlotUI>(out var ui))
+                continue;
 
             if (ui.ItemId != invSlot.Id)
                 continue;
-            else
-                ui.Text.text = $"{invSlot.ItemsCount}";
+
+            if(invSlot.IsEmpty)
+            {
+                ui.ItemId = ItemId.NONE;
+                ui.Controller = null;
+            }
+            ui.Text.text = invSlot.IsEmpty ? "" : $"{invSlot.ItemsCount}"; ;
             break;
         }
     }

@@ -11,4 +11,6 @@ public interface IInventory
     public int TryRemoveItems(ItemId id, int amount);
     public int TryRemoveItems(int index, int amount);
     public bool GetSlot(int index, out IInventorySlot slot);
+    public bool GetSlot(ItemId id, out IInventorySlot slot);
+    public bool Has(ItemId id);
 }

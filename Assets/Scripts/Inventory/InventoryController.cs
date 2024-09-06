@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TestPlatformer.Stats;
 
 public class InventoryController : MonoBehaviour
 {
@@ -13,14 +14,27 @@ public class InventoryController : MonoBehaviour
 
     [SerializeField] [Min(1)] private int _slotsCountInit;
     [SerializeField] private string _itemLayerName;
+    [SerializeField] private Transform _owner;
 
     private int _itemLayer;
     private IInventory _inventory;
 
     private void Awake()
     {
+        if (_owner == null)
+            _owner = transform;
         _itemLayer = LayerMask.NameToLayer(_itemLayerName);
         _inventory = new FixedInventory(_slotsCountInit);
+    }
+
+    private void OnEnable()
+    {
+        InventorySlotUI.onClickItemUI += TryUseItem;
+    }
+
+    private void OnDisable()
+    {
+        InventorySlotUI.onClickItemUI -= TryUseItem;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -46,8 +60,31 @@ public class InventoryController : MonoBehaviour
         onItemAdded?.Invoke(slot);
     }
 
-    private void UseItem()
+    private void RemoveItem(ItemId id)
     {
+        if (!_inventory.GetSlot(id, out var slot))
+            return;
+        if (_inventory.TryRemoveItems(id, 1) < 1)
+            return;
 
+        onItemRemoved?.Invoke(slot);
+    }
+
+    private void TryUseItem(ItemId id, InventoryController controller)
+    {
+        if (controller != this || !_inventory.Has(id))
+            return;
+
+        RemoveItem(id);
+
+        if (!_owner.TryGetComponent<EffectApplier>(out var applier))
+            return;
+
+        ItemConfig config;
+        if (!ItemConfigDatabase.Instance.GetConfig(id, out config))
+            return;
+
+        IStatsModifier effect = new StatsModifier(config.Effect);
+        applier.ApplyEffect(effect);
     }
 }

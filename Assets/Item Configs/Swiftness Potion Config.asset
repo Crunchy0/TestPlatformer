@@ -15,3 +15,4 @@ MonoBehaviour:
   _id: 3
   _name: Swiftness potion
   _icon: {fileID: -2072605653, guid: 9774edb60827ed5438523275f612b075, type: 3}
+  _effect: {fileID: 11400000, guid: f73c99febdb5c0f489fdc144fe31114d, type: 2}

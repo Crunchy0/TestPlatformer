@@ -15,3 +15,4 @@ MonoBehaviour:
   _id: 1
   _name: Healing potion
   _icon: {fileID: -2129531781, guid: 9774edb60827ed5438523275f612b075, type: 3}
+  _effect: {fileID: 11400000, guid: 0d70f52cdfedcac4c9cf0bb25cbd4847, type: 2}

@@ -4,5 +4,8 @@ using UnityEngine;
 
 namespace TestPlatformer.Stats
 {
-    public interface IStatsModifier : IStats { }
+    public interface IStatsModifier : IStats
+    {
+        public IStatsModifier Merge(IStatsModifier other);
+    }
 }

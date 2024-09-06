@@ -19,7 +19,12 @@ namespace TestPlatformer.Stats
         public Stats(BaseStats baseStats)
         {
             _base = baseStats;
-            Modifier = new StatsModifier();
+            Modifier = StatsModifier.Neutral;
+        }
+
+        public void MergeModifier(IStatsModifier other)
+        {
+            Modifier = Modifier.Merge(other);
         }
     }
 }

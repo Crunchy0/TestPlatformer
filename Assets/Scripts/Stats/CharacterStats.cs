@@ -8,6 +8,8 @@ public class CharacterStats : MonoBehaviour
 {
     public event Action<List<string>> onChangeStats;
 
+    public IStats Stats { get => _stats; }
+
     [SerializeField] private BaseStats _baseStats;
     private Stats _stats;
 
@@ -26,9 +28,10 @@ public class CharacterStats : MonoBehaviour
         onChangeStats?.Invoke(WriteStats());
     }
 
-    void Update()
+    public void Modify(IStatsModifier modifier)
     {
-        // Update UI
+        _stats.MergeModifier(modifier);
+        onChangeStats?.Invoke(WriteStats());
     }
 
     private List<string> WriteStats()

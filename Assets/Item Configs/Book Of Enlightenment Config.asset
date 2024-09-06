@@ -15,3 +15,4 @@ MonoBehaviour:
   _id: 5
   _name: Book of enlightenment
   _icon: {fileID: 0}
+  _effect: {fileID: 11400000, guid: 902be2dbde355c1428ce764d53faa4ed, type: 2}
